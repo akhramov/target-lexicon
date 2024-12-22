@@ -284,6 +284,7 @@ fn show_binary_format_with_no_os(triple: &Triple) -> bool {
         && triple.architecture != Architecture::Avr
         && triple.architecture != Architecture::Wasm32
         && triple.architecture != Architecture::Wasm64
+        && triple.architecture != Architecture::Jvm
         && (triple.operating_system == OperatingSystem::None_
             || triple.operating_system == OperatingSystem::Unknown)
 }

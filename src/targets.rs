@@ -51,6 +51,7 @@ pub enum Architecture {
     X86_64h,
     XTensa,
     Clever(CleverArchitecture),
+    Jvm,
     /// A software machine that produces zero-knowledge proofs of the execution.
     ///
     /// See https://wiki.polygon.technology/docs/category/zk-assembly/
@@ -953,7 +954,8 @@ impl Architecture {
             | S390x
             | Sparc
             | Sparc64
-            | Sparcv9 => Ok(Endianness::Big),
+            | Sparcv9
+            | Jvm => Ok(Endianness::Big),
             #[cfg(feature="arch_zkasm")]
             ZkAsm => Ok(Endianness::Big),
         }
@@ -983,7 +985,8 @@ impl Architecture {
             | Pulley32
             | Pulley32be
             | Powerpc
-            | XTensa => Ok(PointerWidth::U32),
+            | XTensa
+            | Jvm => Ok(PointerWidth::U32),
             AmdGcn
             | Bpfeb
             | Bpfel
@@ -1055,6 +1058,7 @@ impl Architecture {
             X86_64h => Cow::Borrowed("x86_64h"),
             XTensa => Cow::Borrowed("xtensa"),
             Clever(ver) => ver.into_str(),
+            Jvm => Cow::Borrowed("jvm"),
             #[cfg(feature = "arch_zkasm")]
             ZkAsm => Cow::Borrowed("zkasm"),
         }
@@ -1336,6 +1340,7 @@ impl FromStr for Architecture {
             "x86_64" => X86_64,
             "x86_64h" => X86_64h,
             "xtensa" => XTensa,
+            "jvm" => Jvm,
             #[cfg(feature = "arch_zkasm")]
             "zkasm" => ZkAsm,
             _ => {
@@ -1932,6 +1937,7 @@ mod tests {
             "xtensa-esp32s2-none-elf",
             "xtensa-esp32s3-espidf",
             "xtensa-esp32s3-none-elf",
+            "jvm-unknown-unknown",
             #[cfg(feature = "arch_zkasm")]
             "zkasm-unknown-unknown",
         ];
